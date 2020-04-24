@@ -48,7 +48,7 @@ def lambda_handler(event, context):
         try:
             # Twitter Direct Message docs - https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event
             # Note: In order for a user to receive a direct message they must have a conversation history with your application or allow direct messages.
-            result = twitter_api.PostDirectMessage(text=message, user_id=endpoint_id, return_json=True)
+            result = twitter_api.PostDirectMessage(text=message, user_id=address, return_json=True)
             print(result)
 
             # To utilize other Twitter APIs here see Twitters API documentation - https://developer.twitter.com/en/docs/basics/getting-started
