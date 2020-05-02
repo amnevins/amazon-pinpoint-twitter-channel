@@ -59,8 +59,12 @@ def lambda_handler(event, context):
 
             # To utilize other Twitter APIs here see Twitters API documentation - https://developer.twitter.com/en/docs/basics/getting-started
 
-            custom_events_batch[endpoint_id] = create_success_custom_event(endpoint_id, event['CampaignId'], message)
-            # add a twitter success event to our batch
+            if 'errors' in result:
+                custom_events_batch[endpoint_id] = create_failure_custom_event(endpoint_id, event['CampaignId'], result['errors'])
+                # found errors, add a twitter failure event to our batch
+            else:
+                custom_events_batch[endpoint_id] = create_success_custom_event(endpoint_id, event['CampaignId'], message)
+                # add a twitter success event to our batch
 
         except Exception as e:
             print(e)
@@ -118,6 +122,7 @@ def create_failure_custom_event(endpoint_id, campaign_id, e):
         'Timestamp': datetime.datetime.now().isoformat(),
         'Attributes': {
             'campaign_id': campaign_id,
-            'error': repr(e)
+            'errors': repr(e)
         }
     }
+    return custom_event
