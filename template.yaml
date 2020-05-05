@@ -26,6 +26,12 @@ Resources:
     Properties:
       FunctionName: AmazonPinpointTwitterChannel
       CodeUri: pinpointtwitter/
+      Policies:
+        - Statement:
+          - Sid: PinpointPutEvents
+            Effect: Allow
+            Action: mobiletargeting:PutEvents
+            Resource: !Sub arn:${AWS::Partition}:mobiletargeting:${AWS::Region}:${AWS::AccountId}:*
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
